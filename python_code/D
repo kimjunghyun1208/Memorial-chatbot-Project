@@ -1,0 +1,91 @@
+# 녹음
+import subprocess
+import sys
+import importlib.util
+
+def is_installed(package_name):
+    return importlib.util.find_spec(package_name) is not None
+
+def install_packages():
+    packages = ["sounddevice", "soundfile", "pydub"]
+
+    for package in packages:
+        if is_installed(package):
+            print(f"[확인] {package} 설치되어 있음")
+        else:
+            try:
+                print(f"[설치 시작] {package}")
+                subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+                print(f"[완료] {package} 설치 완료")
+            except subprocess.CalledProcessError as e:
+                print(f"[오류] {package} 설치 실패: {e}")
+            except Exception as e:
+                print(f"[오류] {e}")
+
+install_packages()
+
+import sounddevice as sd
+import soundfile as sf
+from pydub import AudioSegment
+import numpy as np
+
+def record(seconds=10, samplerate=48000, filename="sample.wav"):
+    print(f"Recording {seconds}s ...")
+    data = sd.rec(int(seconds * samplerate), samplerate=samplerate, channels=1, dtype='int16')
+
+    sd.wait()
+    sf.write(filename, data, samplerate)
+    print("Saved:", filename)
+    return filename
+
+def normalize_wav(infile, outfile, target_dBFS=-6.0):
+    audio = AudioSegment.from_file(infile, format="wav")
+    change_in_dBFS = target_dBFS - audio.dBFS
+    normalized = audio.apply_gain(change_in_dBFS)
+    normalized.export(outfile, format="wav")
+    print("Normalized saved:", outfile)
+
+
+import sounddevice as sd
+import soundfile as sf
+import numpy as np
+
+def record(seconds=10, samplerate=48000, filename="raw.wav"):
+    print(f"Recording {seconds}s ...")
+
+
+    data = sd.rec(int(seconds * samplerate), samplerate=samplerate,
+                  channels=1, dtype='float32')
+    sd.wait()
+
+    sf.write(filename, data, samplerate)
+    print("Saved:", filename)
+    return filename
+
+
+def normalize_wav(infile, outfile, target_dBFS=-6.0):
+    data, sr = sf.read(infile, dtype='float32')
+
+    rms = np.sqrt(np.mean(data ** 2))
+    current_dBFS = 20 * np.log10(rms + 1e-9)
+
+    change_dB = target_dBFS - current_dBFS
+
+    factor = 10 ** (change_dB / 20)
+
+    normalized = data * factor
+
+
+    max_val = np.max(np.abs(normalized))
+    if max_val > 1.0:
+        print("Clipping detected → 자동 보정")
+        normalized /= max_val
+
+    sf.write(outfile, normalized, sr)
+    print("Normalized saved:", outfile)
+
+
+
+if __name__ == "__main__":
+    raw = record(seconds=15, filename="raw_sample.wav")
+    normalize_wav(raw, "normalized_sample.wav")
