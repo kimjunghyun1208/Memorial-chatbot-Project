@@ -65,3 +65,13 @@
 * **GitHub 보안:** 절대로 `config/.env`, `*.wav` (녹음 파일), `*.pyc` 파일을 커밋하지 않도록 `.gitignore` 파일을 철저히 관리하십시오.
 * **GUI 스레드:** GUI 관련 코드는 오직 `app_gui.py`의 메인 스레드에서만 수정해야 합니다. 백그라운드 작업은 반드시 `QThread` 기반의 Worker (예: `GPTWorker`)를 사용하십시오.
 * **경로:** 파일 입출력 시, 로컬 환경에 따라 경로 문제가 생기지 않도록 `os.path.join`을 사용하여 경로를 구성하십시오.
+
+## 기존 파일 이름,새 경로,변경 사항
+* **기존경로 ➡️ 새 경로 / 변경사항**
+* **main.py,src** ➡️ **app_gui.py,GUI** / 실행 및 페르소나 생성 로직을 통합하는 메인 파일이 됩니다. GPT API 호출 함수는 **gpt_core.py**로 이동합니다.
+* **D.txt,src** ➡️ **core / voice_util.py** / 음성 녹음 및 정규화 로직이 들어갑니다.
+* **C.txt,src ➡️ app_gui.py /** PyQt6 GUI 클래스(AIChatBotGUI)와 스레드 클래스(DLWorker → GPTWorker)가 들어갑니다.
+* **kakao_cleaner.py ➡️ src / core / persona_process / kakao_cleaner.py /** 파일 경로 정의를 수정해야 합니다.
+* **style_extractor.py ➡️ src / core / persona_process / style_extractor.py /** 환경 변수 로드 경로를 수정해야 합니다.
+* **persona_builder.py ➡️ src / core / persona_process / persona_builder.py /** 변경 사항 없이 그대로 사용 가능합니다.
+* **sample.txt,data ➡️ sample.txt /** 카카오톡 데이터 원본 파일입니다.
