@@ -1,16 +1,11 @@
-Memorial-chatbot-Project/
-├── config/
-│   └── .env                   # [보안] API 키 및 환경 변수 저장
-├── data/
-│   └── sample.txt             # [원천 데이터] 카카오톡 내보내기 파일 
-├── src/
-│   ├── core/
-│   │   ├── gpt_core.py        # GPT API 통신 및 페르소나 적용
-│   │   ├── voice_util.py      # 음성 녹음 및 정규화
-│   │   └── persona_process/   # 페르소나 구축 3단계 로직 모음
-│   │       ├── kakao_cleaner.py     # 메시지 추출 및 정제
-│   │       ├── style_extractor.py   # 말투 및 성격 분석 (GPT 호출)
-│   │       └── persona_builder.py   # 프롬프트 최종 포맷팅
-│   └── app_gui.py             # PyQt6 GUI 및 스레드 통합 관리
-├── run.py                     # 애플리케이션 시작점
-└── requirements.txt           # 필수 파이썬 패키지 목
+# 🤖 Memorial-chatbot-Project (AI 추모 챗봇)
+
+## 🌟 프로젝트 개요
+
+본 프로젝트는 특정 인물의 카카오톡 대화 데이터를 분석하여 그 사람의 말투와 성격을 재현하는 인공지능 챗봇 시스템입니다. PyQt6 기반의 다크 모드 GUI를 통해 **텍스트 및 음성으로 대화**하며 감정적 교류를 시뮬레이션하는 통합 프레임워크입니다.
+
+## 🚀 MVP 목표
+
+* **페르소나 생성:** 카카오톡 메시지 파일을 입력받아 GPT를 통해 말투 및 성격 분석 후, 시스템 프롬프트를 자동 생성합니다.
+* **비동기 대화:** PyQt6 GUI에서 사용자와 챗봇이 자연스러운 속도로 텍스트 기반 대화를 주고받을 수 있도록 구현합니다.
+* **음성 입력 기반 마련:** 사용자의 음성을 녹음하고 정규화하여 STT(Speech-to-Text) API로 전송할 수 있는 워크플로우를 완성합니다.
