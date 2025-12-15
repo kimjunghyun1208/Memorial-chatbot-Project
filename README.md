@@ -16,7 +16,7 @@
 | :--- | :--- | :--- |
 | **김정현** | **GUI 및 스레드 통합** | PyQt6 UI 개발 (다크 모드), GPTWorker/RecorderWorker 스레드 관리, 타이핑 효과 구현. |
 | **윤준하** | **페르소나 구축** | kakao_cleaner.py, style_extractor.py, persona_builder.py 모듈 개발, GPT API 호출 로직. |
-| **노일국** | **UI & 프론트엔드** | kakao_cleaner.py, style_extractor.py, persona_builder.py 모듈 개발, GPT API 호출 로직. |
+| **노일국** | **UI & 프론트엔드** | 채팅 인터페이스 개발, 사진/프로필 표시 및 UX 디자인. |
 | **김준서** | **음성 입/출력** | sounddevice/soundfile을 사용한 녹음 및 정규화 (voice_util.py), STT/TTS 모듈 통합 (추가 개발 필요). |
 
 
