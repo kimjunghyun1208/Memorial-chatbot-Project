@@ -13,4 +13,4 @@ Memorial-chatbot-Project/
 │   │       └── persona_builder.py   # 프롬프트 최종 포맷팅
 │   └── app_gui.py             # PyQt6 GUI 및 스레드 통합 관리
 ├── run.py                     # 애플리케이션 시작점
-└── requirements.txt           # 필수 파이썬 패키지 목록
+└── requirements.txt           # 필수 파이썬 패키지 목
