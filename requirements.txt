@@ -1,0 +1,7 @@
+PyQt6
+openai
+python-dotenv
+sounddevice
+soundfile
+pydub
+numpy
