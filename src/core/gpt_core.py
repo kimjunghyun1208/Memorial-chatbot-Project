@@ -14,6 +14,7 @@ ENV_PATH = os.path.join(BASE_DIR, "config", ".env")
 load_dotenv(ENV_PATH)
 
 # 전역 클라이언트 변수
+# 환경 변수 "OPENAI_API_KEY"에 저장된 값을 가져옵니다.
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # 초기 페르소나 프롬프트 (app_gui.py에서 생성된 실제 프롬프트로 덮어쓰여야 함)

@@ -4,9 +4,13 @@ import re
 # kakao_cleaner.py의 절대경로
 # kakao_cleaner.py 내 경로 수정
 # BASE_DIR: Memorial-chatbot-Project/
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# DATA_DIR: Memorial-chatbot-Project/data/
+# kakao_cleaner.py 파일 상단 수정
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 DATA_DIR = os.path.join(BASE_DIR, "data")
+
+# 경로가 제대로 잡혔는지 다시 확인하기 위한 디버그 코드
+print(f"DEBUG - 최종 프로젝트 루트: {BASE_DIR}")
+print(f"DEBUG - 최종 데이터 폴더: {DATA_DIR}")
 
 def extract_user_messages(filename, target_name):
     """

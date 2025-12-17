@@ -85,3 +85,26 @@ def normalize_wav(infile, outfile, target_dBFS=-6.0):
 if __name__ == "__main__":
     raw = record(seconds=15, filename="raw_sample.wav")
     normalize_wav(raw, "normalized_sample.wav")
+
+
+# src/core/voice_util.py 끝부분에 추가
+from gtts import gTTS
+import pygame
+import os
+
+def play_voice(text):
+    """텍스트를 음성으로 변환하여 재생합니다."""
+    try:
+        # 1. TTS 파일 생성
+        tts = gTTS(text=text, lang='ko')
+        filename = "response_voice.mp3"
+        tts.save(filename)
+
+        # 2. 오디오 재생 (pygame 사용)
+        pygame.mixer.init()
+        pygame.mixer.music.load(filename)
+        pygame.mixer.music.play()
+
+        # 재생이 끝날 때까지 대기하지 않고 즉시 반환 (비동기 효과)
+    except Exception as e:
+        print(f"[음성 출력 오류] {e}")

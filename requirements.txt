@@ -5,3 +5,4 @@ sounddevice
 soundfile
 pydub
 numpy
+gTTS pygame
