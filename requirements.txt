@@ -6,3 +6,4 @@ soundfile
 pydub
 numpy
 gTTS pygame
+sounddevice soundfile requests pygame

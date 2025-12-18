@@ -1,110 +1,52 @@
-# 녹음
-import subprocess
-import sys
-import importlib.util
-
-def is_installed(package_name):
-    return importlib.util.find_spec(package_name) is not None
-
-def install_packages():
-    packages = ["sounddevice", "soundfile", "pydub"]
-
-    for package in packages:
-        if is_installed(package):
-            print(f"[확인] {package} 설치되어 있음")
-        else:
-            try:
-                print(f"[설치 시작] {package}")
-                subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-                print(f"[완료] {package} 설치 완료")
-            except subprocess.CalledProcessError as e:
-                print(f"[오류] {package} 설치 실패: {e}")
-            except Exception as e:
-                print(f"[오류] {e}")
-
-install_packages()
-
-import sounddevice as sd
-import soundfile as sf
-from pydub import AudioSegment
-import numpy as np
-
-def record(seconds=10, samplerate=48000, filename="sample.wav"):
-    print(f"Recording {seconds}s ...")
-    data = sd.rec(int(seconds * samplerate), samplerate=samplerate, channels=1, dtype='int16')
-
-    sd.wait()
-    sf.write(filename, data, samplerate)
-    print("Saved:", filename)
-    return filename
-
-def normalize_wav(infile, outfile, target_dBFS=-6.0):
-    audio = AudioSegment.from_file(infile, format="wav")
-    change_in_dBFS = target_dBFS - audio.dBFS
-    normalized = audio.apply_gain(change_in_dBFS)
-    normalized.export(outfile, format="wav")
-    print("Normalized saved:", outfile)
-
-
-import sounddevice as sd
-import soundfile as sf
-import numpy as np
-
-def record(seconds=10, samplerate=48000, filename="raw.wav"):
-    print(f"Recording {seconds}s ...")
-
-    data = sd.rec(int(seconds * samplerate), samplerate=samplerate,
-                  channels=1, dtype='float32')
-    sd.wait()
-
-    sf.write(filename, data, samplerate)
-    print("Saved:", filename)
-    return filename
-
-def normalize_wav(infile, outfile, target_dBFS=-6.0):
-    data, sr = sf.read(infile, dtype='float32')
-
-    rms = np.sqrt(np.mean(data ** 2))
-    current_dBFS = 20 * np.log10(rms + 1e-9)
-
-    change_dB = target_dBFS - current_dBFS
-
-    factor = 10 ** (change_dB / 20)
-
-    normalized = data * factor
-
-    max_val = np.max(np.abs(normalized))
-    if max_val > 1.0:
-        print("Clipping detected → 자동 보정")
-        normalized /= max_val
-
-    sf.write(outfile, normalized, sr)
-    print("Normalized saved:", outfile)
-
-
-if __name__ == "__main__":
-    raw = record(seconds=15, filename="raw_sample.wav")
-    normalize_wav(raw, "normalized_sample.wav")
-
-
-# src/core/voice_util.py 끝부분에 추가
-from gtts import gTTS
-import pygame
 import os
+import requests
+import pygame
 
-def play_voice(text):
-    """텍스트를 음성으로 변환하여 재생합니다."""
+# ==========================================
+# ElevenLabs 설정 (본인의 정보를 입력하세요)
+# ==========================================
+XI_API_KEY = "여러분의_에레븐랩스_API_키" 
+VOICE_ID = "학습시킨_보이스_ID" 
+
+def play_cloned_voice(text):
+    """텍스트를 ElevenLabs 목소리로 변환하여 재생합니다."""
+    # 한국어 모델 설정
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
+    
+    headers = {
+        "Accept": "audio/mpeg",
+        "Content-Type": "application/json",
+        "xi-api-key": XI_API_KEY
+    }
+    
+    data = {
+        "text": text,
+        "model_id": "eleven_multilingual_v2", # 한국어 지원 최신 모델
+        "voice_settings": {
+            "stability": 0.5,       # 목소리 안정성 (0~1)
+            "similarity_boost": 0.75 # 원본과의 유사도 (0~1)
+        }
+    }
+
     try:
-        # 1. TTS 파일 생성
-        tts = gTTS(text=text, lang='ko')
-        filename = "response_voice.mp3"
-        tts.save(filename)
-
-        # 2. 오디오 재생 (pygame 사용)
-        pygame.mixer.init()
-        pygame.mixer.music.load(filename)
-        pygame.mixer.music.play()
-
-        # 재생이 끝날 때까지 대기하지 않고 즉시 반환 (비동기 효과)
+        response = requests.post(url, json=data, headers=headers)
+        if response.status_code == 200:
+            filename = "response_voice.mp3"
+            # 기존 파일이 재생 중일 수 있으므로 안전하게 저장
+            with open(filename, "wb") as f:
+                f.write(response.content)
+            
+            # 오디오 재생 초기화 및 실행
+            if not pygame.mixer.get_init():
+                pygame.mixer.init()
+            
+            pygame.mixer.music.load(filename)
+            pygame.mixer.music.play()
+            
+            print(f"✅ ElevenLabs 음성 출력 성공: {text[:20]}...")
+        else:
+            print(f"⚠️ ElevenLabs API 오류: {response.status_code} - {response.text}")
     except Exception as e:
-        print(f"[음성 출력 오류] {e}")
+        print(f"❌ 음성 출력 처리 중 오류 발생: {e}")
+
+# (기존에 있던 record_user_voice 함수 등이 필요 없다면 이대로 끝내셔도 됩니다.)

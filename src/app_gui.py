@@ -3,12 +3,12 @@ import os
 import time
 from PyQt6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QTextEdit, 
-    QLineEdit, QPushButton, QLabel, QFrame, QHBoxLayout
+    QLineEdit, QPushButton, QLabel, QFrame, QHBoxLayout, QFileDialog
 )
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 import numpy as np
 
-from core.voice_util import play_voice
+from core.voice_util import play_cloned_voice
 
 from core import gpt_core 
 from core.persona_process.kakao_cleaner import extract_user_messages
@@ -54,6 +54,10 @@ class AIChatBotGUI(QWidget):
         title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title_label.setStyleSheet("font-size: 24px; color: #3498db; font-weight: bold; padding: 10px;")
         layout.addWidget(title_label)
+
+        self.file_load_button = QPushButton("📁 음성 파일 불러오기")
+        self.file_load_button.clicked.connect(self.load_audio_file)
+        input_hbox.addWidget(self.file_load_button)
 
         self.chat_output = QTextEdit()
         self.chat_output.setReadOnly(True)
@@ -116,11 +120,24 @@ class AIChatBotGUI(QWidget):
         self.chat_output.append(self._format_bot_message(response))
         self.chat_output.ensureCursorVisible()
 
-    def handle_response(self, response):
-        """GPT 응답을 처리하고 음성으로 출력합니다."""
-        self.chat_history.append({"role": "assistant", "content": response}) #
-        self.chat_output.append(self._format_bot_message(response)) #
-        self.chat_output.ensureCursorVisible() #
+    def load_audio_file(self):
+        """컴퓨터에서 음성 파일을 선택하여 처리합니다."""
+        file_path, _ = QFileDialog.getOpenFileName(
+            self, "음성 파일 선택", "", "Audio Files (*.wav *.mp3 *.m4a)"
+        )
+    
+        if file_path:
+            self.status_label.setText(f"📂 파일 로드됨: {os.path.basename(file_path)}")
+        
+            # ⚠️ 실제 STT(음성->텍스트) 연동 전까지는 테스트 문구로 작동합니다.
+            # 고퀄리티를 원하시면 여기서 OpenAI Whisper API를 호출해야 합니다.
+            user_text = "불러온 음성 파일의 내용을 분석 중입니다..." 
+            self.send_message(user_text) # GPT에게 전달
 
-        # ✅ 추가: 챗봇의 답변을 목소리로 들려줍니다.
-        play_voice(response)
+    def handle_response(self, response):
+        """GPT 답변을 텍스트로 보여주고 ElevenLabs로 들려줍니다."""
+        self.chat_history.append({"role": "assistant", "content": response})
+        self.chat_output.append(self._format_bot_message(response))
+    
+        # ElevenLabs 음성 출력 실행
+        play_cloned_voice(response)
