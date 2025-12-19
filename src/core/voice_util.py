@@ -1,16 +1,16 @@
 import os
 import requests
 import pygame
+import time
 
 # ==========================================
-# ElevenLabs 설정 (본인의 정보를 입력하세요)
+# ElevenLabs 설정
 # ==========================================
-XI_API_KEY = "여러분의_에레븐랩스_API_키" 
-VOICE_ID = "학습시킨_보이스_ID" 
+XI_API_KEY = "sk_dda35c5de63c9756ca3f770dfdfc43c49dfcc407db036f62" # 따옴표 포함 확인
+VOICE_ID = "y2skw7p6O7OxpMrhHOHw" # 학습시킨 Voice ID를 입력하세요
 
 def play_cloned_voice(text):
     """텍스트를 ElevenLabs 목소리로 변환하여 재생합니다."""
-    # 한국어 모델 설정
     url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
     
     headers = {
@@ -21,32 +21,40 @@ def play_cloned_voice(text):
     
     data = {
         "text": text,
-        "model_id": "eleven_multilingual_v2", # 한국어 지원 최신 모델
+        "model_id": "eleven_multilingual_v2",
         "voice_settings": {
-            "stability": 0.5,       # 목소리 안정성 (0~1)
-            "similarity_boost": 0.75 # 원본과의 유사도 (0~1)
+            "stability": 0.5,
+            "similarity_boost": 0.75
         }
     }
 
     try:
+        # ✅ 해결책 1: 재생 중인 오디오가 있다면 정지 및 점유 해제
+        if pygame.mixer.get_init():
+            pygame.mixer.music.stop()
+            pygame.mixer.music.unload() 
+
         response = requests.post(url, json=data, headers=headers)
+        
         if response.status_code == 200:
-            filename = "response_voice.mp3"
-            # 기존 파일이 재생 중일 수 있으므로 안전하게 저장
-            with open(filename, "wb") as f:
+            # ✅ 해결책 2: 파일명 충돌을 방지하기 위해 임시 파일 생성
+            # 기존 response_voice.mp3 대신 시간값을 붙여서 생성합니다.
+            temp_filename = f"temp_voice_{int(time.time())}.mp3"
+            
+            with open(temp_filename, "wb") as f:
                 f.write(response.content)
             
-            # 오디오 재생 초기화 및 실행
+            # 오디오 초기화 및 재생
             if not pygame.mixer.get_init():
                 pygame.mixer.init()
             
-            pygame.mixer.music.load(filename)
+            pygame.mixer.music.load(temp_filename)
             pygame.mixer.music.play()
             
-            print(f"✅ ElevenLabs 음성 출력 성공: {text[:20]}...")
+            # ✅ 사용 완료된 임시 파일들은 나중에 정리하거나 유지합니다.
+            print(f"✅ 재생 시작: {temp_filename}")
         else:
             print(f"⚠️ ElevenLabs API 오류: {response.status_code} - {response.text}")
+            
     except Exception as e:
-        print(f"❌ 음성 출력 처리 중 오류 발생: {e}")
-
-# (기존에 있던 record_user_voice 함수 등이 필요 없다면 이대로 끝내셔도 됩니다.)
+        print(f"❌ 음성 처리 중 오류 발생: {e}")

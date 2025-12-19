@@ -55,9 +55,6 @@ class AIChatBotGUI(QWidget):
         title_label.setStyleSheet("font-size: 24px; color: #3498db; font-weight: bold; padding: 10px;")
         layout.addWidget(title_label)
 
-        self.file_load_button = QPushButton("📁 음성 파일 불러오기")
-        self.file_load_button.clicked.connect(self.load_audio_file)
-        input_hbox.addWidget(self.file_load_button)
 
         self.chat_output = QTextEdit()
         self.chat_output.setReadOnly(True)
@@ -75,6 +72,10 @@ class AIChatBotGUI(QWidget):
         
         self.send_button = QPushButton("전송")
         self.send_button.clicked.connect(lambda: self.send_message(self.chat_input.text().strip()))
+
+        self.file_load_button = QPushButton("📁 음성 파일 불러오기")
+        self.file_load_button.clicked.connect(self.load_audio_file)
+        input_hbox.addWidget(self.file_load_button)
 
         input_hbox.addWidget(self.chat_input)
         input_hbox.addWidget(self.send_button)
