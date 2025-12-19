@@ -21,17 +21,15 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 current_persona_prompt = "초기 AI 모델 준비 중. 페르소나 로딩을 기다리세요." 
 
 
-def chat_with_persona(system_prompt: str, user_message: str, chat_history: list) -> str:
-    """
-    해당 사람의 말투로 답변 생성 및 문맥 유지
-    (원래 main.py의 chat_with_persona를 확장하여 chat_history를 받도록 수정)
-    """
-    if client is None or not system_prompt:
-        return "[오류] GPT 클라이언트 또는 페르소나 프롬프트가 준비되지 않았습니다."
-
+def chat_with_persona(system_prompt, user_message, chat_history):
     messages = [
-        {"role": "system", "content": system_prompt}
+        # ✅ 이 부분에서 system_prompt(페르소나)가 반드시 첫 번째여야 합니다.
+        {"role": "system", "content": system_prompt},
     ]
+    # 이전 대화 기록 추가...
+    messages.append({"role": "user", "content": user_message})
+    
+    # OpenAI API 호출...
     
     # 문맥 유지를 위해 대화 기록 추가
     for item in chat_history: 
