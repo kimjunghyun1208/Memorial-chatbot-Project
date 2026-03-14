@@ -3,11 +3,15 @@ import requests
 import pygame
 import time
 
+
+from dotenv import load_dotenv
 # ==========================================
 # ElevenLabs 설정
 # ==========================================
-XI_API_KEY = "sk_dda35c5de63c9756ca3f770dfdfc43c49dfcc407db036f62" # 따옴표 포함 확인
-VOICE_ID = "y2skw7p6O7OxpMrhHOHw" # 학습시킨 Voice ID를 입력하세요
+# .env 파일 로드
+load_dotenv("config/.env")
+XI_API_KEY = os.getenv("XI_API_KEY")
+VOICE_ID = os.getenv("VOICE_ID")
 
 def play_cloned_voice(text):
     """텍스트를 ElevenLabs 목소리로 변환하여 재생합니다."""
