@@ -118,18 +118,31 @@ class AIChatBotGUI(QWidget):
             updated_memory = merge_memories(existing_memory, memory_chunks)
             save_memory(updated_memory)
             memory_prompt = build_memory_prompt(updated_memory)
+            
+            self.full_system_prompt = f"""
+                {self.persona_prompt}
+
+                아래는 이 사람의 과거 기억이다.
+                이 정보를 사실로 여기고 대화에 자연스럽게 반영하라.
+
+                {memory_prompt}
+
+                규칙:
+    
+                기억에 없는 내용은 지어내지 마라
+                기억이 관련 있으면 반드시 반영하라"""
 
             self.status_label.setText("🟢 준비 완료! 대화를 시작하세요.")
         except Exception as e:
             self.status_label.setText(f"🔴 로드 실패: {str(e)}")
 
     def send_message(self, text):
-        if not text or not self.persona_prompt: return
+        if not text or not self.full_system_prompt: return
         self.chat_output.append(self._format_user_message(text))
         self.chat_input.clear()
         self.chat_history.append({"role": "user", "content": text})
         
-        self.worker = GPTWorker(text, self.chat_history, self.persona_prompt)
+        self.worker = GPTWorker(text, self.chat_history, self.full_system_prompt)
         self.worker.response_ready.connect(self.handle_response)
         self.worker.start()
 
