@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 import numpy as np
+from openai import OpenAI
 
 from core.voice_util import play_cloned_voice
 
@@ -14,6 +15,13 @@ from core import gpt_core
 from core.persona_process.kakao_cleaner import extract_user_messages
 from core.persona_process.style_extractor import analyze_style, merge_analyses
 from core.persona_process.persona_builder import build_persona
+from core.persona_process.memory_extractor import extract_memory
+from core.persona_process.memory_prompt_builder import build_memory_prompt
+from core.persona_process.memory_store import load_memory, merge_memories, save_memory
+import speech_recognition as sr
+
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # GPT 작업 스레드
 class GPTWorker(QThread):
@@ -81,6 +89,10 @@ class AIChatBotGUI(QWidget):
         input_hbox.addWidget(self.send_button)
         layout.addLayout(input_hbox)
 
+        self.voice_record_button = QPushButton("🎤 음성으로 말하기")
+        self.voice_record_button.clicked.connect(self.listen_and_send) # 위에서 만든 함수와 연결
+        input_hbox.addWidget(self.voice_record_button)
+
         # 초기 환영 메시지 추가
         self.chat_output.append(self._format_bot_message("안녕하세요! 시스템을 준비 중입니다."))
 
@@ -101,7 +113,12 @@ class AIChatBotGUI(QWidget):
             analyses = analyze_style(msgs)
             persona_json = merge_analyses(analyses)
             self.persona_prompt = build_persona(persona_json)
-            
+            memory_chunks = extract_memory(msgs, client)
+            existing_memory = load_memory()
+            updated_memory = merge_memories(existing_memory, memory_chunks)
+            save_memory(updated_memory)
+            memory_prompt = build_memory_prompt(updated_memory)
+
             self.status_label.setText("🟢 준비 완료! 대화를 시작하세요.")
         except Exception as e:
             self.status_label.setText(f"🔴 로드 실패: {str(e)}")
@@ -142,3 +159,28 @@ class AIChatBotGUI(QWidget):
     
         # ElevenLabs 음성 출력 실행
         play_cloned_voice(response)
+    def listen_and_send(self):
+        """마이크 음성을 인식하여 메시지로 전송"""
+        recognizer = sr.Recognizer()
+        with sr.Microphone() as source:
+            self.status_label.setText("🎤 듣고 있습니다... 말씀하세요!")
+            QApplication.processEvents() # UI 업데이트 반영
+            
+            try:
+                # 주변 소음 보정 후 녹음
+                recognizer.adjust_for_ambient_noise(source, duration=1)
+                audio = recognizer.listen(source, timeout=5)
+                
+                # Google STT로 한국어 변환
+                user_text = recognizer.recognize_google(audio, language='ko-KR')
+                self.status_label.setText(f"📝 인식 결과: {user_text}")
+                
+                # 인식된 텍스트를 바로 채팅창으로 전송
+                self.send_message(user_text)
+                
+            except sr.UnknownValueError:
+                self.status_label.setText("❌ 음성을 이해하지 못했습니다.")
+            except sr.RequestError:
+                self.status_label.setText("❌ 서비스 오류가 발생했습니다.")
+            except Exception as e:
+                self.status_label.setText(f"❌ 오류: {str(e)}")

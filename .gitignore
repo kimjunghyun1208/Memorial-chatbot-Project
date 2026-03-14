@@ -1,2 +1,22 @@
-.env
+# API 키 및 환경 변수 (절대 올리면 안 됨)
 config/.env
+.env
+
+# 파이썬 가상환경 및 라이브러리
+.venv/
+venv/
+env/
+
+# 파이썬 캐시 파일
+**/__pycache__/
+*.pyc
+
+# 빌드 및 실행 파일 관련
+build/
+dist/
+*.spec
+*.exe
+
+# 임시 생성 데이터 및 로그
+*.mp3
+data/persona_memory.json
