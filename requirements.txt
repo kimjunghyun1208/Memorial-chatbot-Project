@@ -7,3 +7,4 @@ pydub
 numpy
 gTTS pygame
 sounddevice soundfile requests pygame
+SpeechRecognition PyAudio gTTS playsound==1.2.2

@@ -63,6 +63,17 @@ class AIChatBotGUI(QWidget):
         title_label.setStyleSheet("font-size: 24px; color: #3498db; font-weight: bold; padding: 10px;")
         layout.addWidget(title_label)
 
+        voice_option = QHBoxLayout()
+        voice_option.addStretch(1)
+
+        self.voice_option_btn = QPushButton("🔊 자동 음성 허용중")
+        self.voice_option_btn.setCheckable(True)
+        self.voice_option_btn.clicked.connect(self.voice_status)
+
+        voice_option.addWidget(self.voice_option_btn)
+        layout.addLayout(voice_option)
+
+
 
         self.chat_output = QTextEdit()
         self.chat_output.setReadOnly(True)
@@ -81,9 +92,7 @@ class AIChatBotGUI(QWidget):
         self.send_button = QPushButton("전송")
         self.send_button.clicked.connect(lambda: self.send_message(self.chat_input.text().strip()))
 
-        self.file_load_button = QPushButton("📁 음성 파일 불러오기")
-        self.file_load_button.clicked.connect(self.load_audio_file)
-        input_hbox.addWidget(self.file_load_button)
+
 
         input_hbox.addWidget(self.chat_input)
         input_hbox.addWidget(self.send_button)
@@ -97,6 +106,14 @@ class AIChatBotGUI(QWidget):
         self.chat_output.append(self._format_bot_message("안녕하세요! 시스템을 준비 중입니다."))
 
     # ✅ 해결 3: 오류가 났던 메시지 포맷 함수들을 정의합니다.
+
+    def voice_status(self):
+        if self.voice_option_btn.isChecked():
+            self.auto_voice_enabled = False
+            self.voice_option_btn.setText("🔇 자동 음성 차단중")
+        else :
+            self.auto_voice_enabled = True
+            self.voice_option_btn.setText("🔊 자동 음성 사용중")
     def _format_user_message(self, text):
         return f"<div style='margin: 5px; text-align: right;'><b style='color: #f1c40f;'>나:</b> {text}</div>"
 
@@ -171,7 +188,10 @@ class AIChatBotGUI(QWidget):
         self.chat_output.append(self._format_bot_message(response))
     
         # ElevenLabs 음성 출력 실행
-        play_cloned_voice(response)
+        if hasattr(self, 'auto_voice_enabled') and self.auto_voice_enabled:
+            play_cloned_voice(response)
+        else:
+            print("음성차단 상태이므로 API 호출 금지")
     def listen_and_send(self):
         """마이크 음성을 인식하여 메시지로 전송"""
         recognizer = sr.Recognizer()
