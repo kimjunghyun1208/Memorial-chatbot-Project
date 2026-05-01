@@ -1,10 +1,25 @@
+# --- Core / GUI ---
 PyQt6
-openai
 python-dotenv
+
+# --- AI / API ---
+openai
+fal-client
+
+# --- Face Analysis & Synthesis ---
+insightface
+opencv-python
+onnxruntime
+Pillow
+numpy
+requests
+
+# --- Voice / Audio ---
 sounddevice
 soundfile
 pydub
-numpy
-gTTS pygame
-sounddevice soundfile requests pygame
-SpeechRecognition PyAudio gTTS playsound==1.2.2
+gTTS
+pygame
+SpeechRecognition
+PyAudio
+playsound==1.2.2

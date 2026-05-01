@@ -14,11 +14,13 @@ print(f"DEBUG - 최종 데이터 폴더: {DATA_DIR}")
 
 def extract_user_messages(filename, target_name):
     """
-    카톡 txt 파일에서 특정 사용자의 메시지만 추출.
-    filename: data 폴더 안의 파일 이름
+    filename: 파일 이름 또는 전체 경로 모두 허용
     """
-
-    filepath = os.path.join(DATA_DIR, filename)
+    # 전체 경로가 넘어오면 그대로 사용, 파일명만 오면 DATA_DIR과 합치기
+    if os.path.isabs(filename):
+        filepath = filename
+    else:
+        filepath = os.path.join(DATA_DIR, filename)
 
     if not os.path.exists(filepath):
         raise FileNotFoundError(f"파일을 찾을 수 없습니다: {filepath}")
@@ -28,22 +30,14 @@ def extract_user_messages(filename, target_name):
     with open(filepath, "r", encoding="utf-8") as f:
         lines = f.readlines()
 
-    pattern = re.compile(rf"^{target_name} : (.*)")
+    pattern = re.compile(rf"^\[{target_name}\] \[.+?\] (.*)")
 
     for line in lines:
         match = pattern.match(line)
         if match:
             text = match.group(1).strip()
-
             if text in ["사진", "이모티콘", "동영상", "삭제된 메시지입니다."]:
                 continue
-
             messages.append(text)
 
     return messages
-
-
-# 테스트
-if __name__ == "__main__":
-    msgs = extract_user_messages("sample.txt", "홍길동")
-    print(msgs[:20])

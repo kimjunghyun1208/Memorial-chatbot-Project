@@ -20,3 +20,9 @@ dist/
 # 임시 생성 데이터 및 로그
 *.mp3
 data/persona_memory.json
+
+# 추가
+src/data/persona/photo.jpg
+src/data/persona/*.png
+memory_data/
+src/checkpoints/

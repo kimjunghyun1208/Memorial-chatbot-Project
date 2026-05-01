@@ -57,9 +57,15 @@ def extract_memory(messages, client, chunk_size=20):
         print("===== END =====\n")
 
         try:
-            memories.append(json.loads(content))
+                # ```json ... ``` 마크다운 제거
+            clean = content.strip()
+            if clean.startswith("```"):
+                clean = clean.split("```")[1]
+                if clean.startswith("json"):
+                    clean = clean[4:]
+            memories.append(json.loads(clean.strip()))
         except json.JSONDecodeError:
-            print("⚠️ JSON 파싱 실패, 해당 chunk 스킵")
+            print(f"⚠️ JSON 파싱 실패, 해당 chunk 스킵\n내용: {content}")
 
 
     return memories

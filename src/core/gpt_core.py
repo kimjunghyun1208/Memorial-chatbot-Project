@@ -22,9 +22,19 @@ current_persona_prompt = "초기 AI 모델 준비 중. 페르소나 로딩을 �
 
 
 def chat_with_persona(system_prompt, user_message, chat_history):
+    slow_speed_instruction = """
+    # 중요 지시사항:
+    1. 답변은 반드시 2~3문장 이내로 짧게 해주세요.
+    2. 문장 사이사이에 쉼표(,)와 마침표(.)를 아주 많이 사용해서 천천히 말하는 느낌을 주세요.
+    3. 한 문장이 끝나면 반드시 줄바꿈을 해주세요.
+    """
+    
+    # 기존 프롬프트와 합치기
+    enhanced_prompt = system_prompt + slow_speed_instruction
+
     messages = [
         # ✅ 이 부분에서 system_prompt(페르소나)가 반드시 첫 번째여야 합니다.
-        {"role": "system", "content": system_prompt},
+        {"role": "system", "content": enhanced_prompt},
     ]
     # 이전 대화 기록 추가...
     messages.append({"role": "user", "content": user_message})
