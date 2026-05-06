@@ -1,5 +1,5 @@
 # core/persona_process/audio_extractor.py
-from moviepy import VideoFileClip
+from moviepy.editor import VideoFileClip
 import os
 
 def extract_audio(video_path):

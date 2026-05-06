@@ -36,6 +36,7 @@ class FaceSynthesizer:
         self,
         image_paths: list,
         output_path: str = "synthesized_front.png",
+        age: int = None,
         **kwargs
     ) -> Optional[str]:
 
@@ -64,16 +65,21 @@ class FaceSynthesizer:
 
         print(f"[FaceSynthesizer] {len(images)}장 이미지를 Nano Banana 2에 전송 중...")
 
-        # 모든 이미지를 data URI로 변환
         image_urls = [self._image_to_data_uri(img) for img in images]
 
-        # 프롬프트: 여러 각도 사진에서 정면 얼굴 생성
+        # 나이 지정 여부에 따라 프롬프트 분기
+        if age:
+            age_desc = f"exactly {age} years old, "
+            print(f"[FaceSynthesizer] 나이 설정: {age}세")
+        else:
+            age_desc = ""
+
         prompt = (
-            "Using all the provided reference photos of the same person taken from different angles, "
-            "generate a single high-quality frontal portrait photo. "
-            "The person should be facing directly forward with a neutral expression, "
-            "soft natural lighting, clean background, photorealistic, sharp focus, high quality. "
-            "Preserve the exact facial features, skin tone, and identity of the person in the reference photos."
+            f"Using all the provided reference photos of the same person taken from different angles, "
+            f"generate a single high-quality frontal portrait photo of a person who is {age_desc}"
+            f"facing directly forward with a neutral expression, "
+            f"soft natural lighting, clean background, photorealistic, sharp focus, high quality. "
+            f"Preserve the exact facial features, skin tone, and identity of the person in the reference photos."
         )
 
         print("[FaceSynthesizer] fal.ai Nano Banana 2 API 호출 중...")
@@ -94,7 +100,6 @@ class FaceSynthesizer:
 
             result_url = result["images"][0]["url"]
 
-            # 저장
             os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
             response = requests.get(result_url)
             with open(output_path, 'wb') as f:

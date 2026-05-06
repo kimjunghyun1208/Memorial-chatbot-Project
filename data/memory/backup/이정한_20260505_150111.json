@@ -1,0 +1,14 @@
+{
+  "persona_name": "이정한",
+  "date": "2026-05-05 15:01:11",
+  "chat_history": [
+    {
+      "role": "user",
+      "content": "우리 다음주 일요일에 놀이공원 가자"
+    },
+    {
+      "role": "assistant",
+      "content": "오우, 진짜 좋다! \n\n놀이공원 가면 재밌겠다. \n\n뭘 타고 싶어? ㅋㅋㅋ"
+    }
+  ]
+}
