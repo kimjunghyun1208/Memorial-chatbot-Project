@@ -7,31 +7,31 @@
     },
     {
       "role": "assistant",
-      "content": "안녕ㅎㅎ 나 지금 집에서 쉬고 있어, \n\n운동 갔다 오고 카페 가려고 계획하고 있거든! \n\n너는 뭐해? ㅎㅎ"
+      "content": "안녕, 나 지금 운동하고 있어!  \n\n조금 피곤하긴 한데, 그래도 신나! ㅋㅋㅋ  \n\n너는 뭐해? ㅇㅋ?"
     },
     {
       "role": "user",
-      "content": "우리 전에 물놀이 했던 거"
+      "content": "민준이는 요새 뭐 해"
     },
     {
       "role": "assistant",
-      "content": "아 그거 진짜 재밌었지 ㅋㅋㅋ \n\n너랑 같이 놀아가지고 너무 즐거웠어! \n\n또 가고 싶다 ㅎㅎ!"
+      "content": "민준이는 요즘 유튜브 보면서 시간 보내고 있어!  \n\n그거 진짜 재밌는 거 많거든! ㅋㅋㅋ  \n\n너는 민준이랑 뭐 하기로 했어?"
     },
     {
       "role": "user",
-      "content": "너 물에서 뭐 했는지 기억해"
+      "content": "물 위에서 뭐 했는지 기억나"
     },
     {
       "role": "assistant",
-      "content": "어 그럼, 물 위에서 놀았던 거 진짜 기억나! ㅋㅋ \n\n구조물 위에서 기어가고, \n\n물에 빠지기도 하고, 장난도 많이 쳤지! ㅎㅎ \n\n너도 재밌었지?"
+      "content": "물 위에서 진짜 재밌게 놀았지!  \n\n장애물도 넘고, 균형 잡으려고 노력하고! ㅋㅋㅋ  \n\n재밌었어, 너도 그때 같이 했으면 좋았을 텐데! ㅇㅋ?"
     }
   ],
   "display_html": [
-    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='right'><table cellspacing='0' cellpadding='0'><tr><td style='background:#2a2a2a; color:#e0e0e0; border:none; border-radius:16px 16px 4px 16px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#888888; margin-bottom:8px; letter-spacing:1px; font-style:italic;'>나</div><div>안녕 뭐 하고 있어</div></td></tr></table></td></tr></table>",
-    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='left'><table cellspacing='0' cellpadding='0'><tr><td style='background:#252525; color:#c0c0c0; border:none; border-radius:16px 16px 16px 4px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#707070; margin-bottom:8px; letter-spacing:1px; font-style:italic; font-weight:700;'>이정한</div><div>안녕ㅎㅎ 나 지금 집에서 쉬고 있어, \n\n운동 갔다 오고 카페 가려고 계획하고 있거든! \n\n너는 뭐해? ㅎㅎ</div></td></tr></table></td></tr></table>",
-    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='right'><table cellspacing='0' cellpadding='0'><tr><td style='background:#2a2a2a; color:#e0e0e0; border:none; border-radius:16px 16px 4px 16px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#888888; margin-bottom:8px; letter-spacing:1px; font-style:italic;'>나</div><div>우리 전에 물놀이 했던 거</div></td></tr></table></td></tr></table>",
-    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='left'><table cellspacing='0' cellpadding='0'><tr><td style='background:#252525; color:#c0c0c0; border:none; border-radius:16px 16px 16px 4px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#707070; margin-bottom:8px; letter-spacing:1px; font-style:italic; font-weight:700;'>이정한</div><div>아 그거 진짜 재밌었지 ㅋㅋㅋ \n\n너랑 같이 놀아가지고 너무 즐거웠어! \n\n또 가고 싶다 ㅎㅎ!</div></td></tr></table></td></tr></table>",
-    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='right'><table cellspacing='0' cellpadding='0'><tr><td style='background:#2a2a2a; color:#e0e0e0; border:none; border-radius:16px 16px 4px 16px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#888888; margin-bottom:8px; letter-spacing:1px; font-style:italic;'>나</div><div>너 물에서 뭐 했는지 기억해</div></td></tr></table></td></tr></table>",
-    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='left'><table cellspacing='0' cellpadding='0'><tr><td style='background:#252525; color:#c0c0c0; border:none; border-radius:16px 16px 16px 4px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#707070; margin-bottom:8px; letter-spacing:1px; font-style:italic; font-weight:700;'>이정한</div><div>어 그럼, 물 위에서 놀았던 거 진짜 기억나! ㅋㅋ \n\n구조물 위에서 기어가고, \n\n물에 빠지기도 하고, 장난도 많이 쳤지! ㅎㅎ \n\n너도 재밌었지?</div></td></tr></table></td></tr></table>"
+    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='right'><table cellspacing='0' cellpadding='0'><tr><td style='background:#323232; color:#e0e0e0; border:none; border-radius:16px 16px 4px 16px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#909090; margin-bottom:8px; letter-spacing:1px; font-style:italic;'>나</div><div>안녕 뭐 하고 있어</div></td></tr></table></td></tr></table>",
+    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='left'><table cellspacing='0' cellpadding='0'><tr><td style='background:#2a2a2a; color:#c8c8c8; border:none; border-radius:16px 16px 16px 4px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#787878; margin-bottom:8px; letter-spacing:1px; font-style:italic; font-weight:700;'>이정한</div><div>안녕, 나 지금 운동하고 있어!  \n\n조금 피곤하긴 한데, 그래도 신나! ㅋㅋㅋ  \n\n너는 뭐해? ㅇㅋ?</div></td></tr></table></td></tr></table>",
+    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='right'><table cellspacing='0' cellpadding='0'><tr><td style='background:#323232; color:#e0e0e0; border:none; border-radius:16px 16px 4px 16px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#909090; margin-bottom:8px; letter-spacing:1px; font-style:italic;'>나</div><div>민준이는 요새 뭐 해</div></td></tr></table></td></tr></table>",
+    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='left'><table cellspacing='0' cellpadding='0'><tr><td style='background:#2a2a2a; color:#c8c8c8; border:none; border-radius:16px 16px 16px 4px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#787878; margin-bottom:8px; letter-spacing:1px; font-style:italic; font-weight:700;'>이정한</div><div>민준이는 요즘 유튜브 보면서 시간 보내고 있어!  \n\n그거 진짜 재밌는 거 많거든! ㅋㅋㅋ  \n\n너는 민준이랑 뭐 하기로 했어?</div></td></tr></table></td></tr></table>",
+    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='right'><table cellspacing='0' cellpadding='0'><tr><td style='background:#323232; color:#e0e0e0; border:none; border-radius:16px 16px 4px 16px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#909090; margin-bottom:8px; letter-spacing:1px; font-style:italic;'>나</div><div>물 위에서 뭐 했는지 기억나</div></td></tr></table></td></tr></table>",
+    "<table width='100%' cellspacing='0' cellpadding='4'><tr><td align='left'><table cellspacing='0' cellpadding='0'><tr><td style='background:#2a2a2a; color:#c8c8c8; border:none; border-radius:16px 16px 16px 4px; padding:10px 15px; font-size:13px; line-height:1.8; max-width:300px;'><div style='font-size:10px; color:#787878; margin-bottom:8px; letter-spacing:1px; font-style:italic; font-weight:700;'>이정한</div><div>물 위에서 진짜 재밌게 놀았지!  \n\n장애물도 넘고, 균형 잡으려고 노력하고! ㅋㅋㅋ  \n\n재밌었어, 너도 그때 같이 했으면 좋았을 텐데! ㅇㅋ?</div></td></tr></table></td></tr></table>"
   ]
 }

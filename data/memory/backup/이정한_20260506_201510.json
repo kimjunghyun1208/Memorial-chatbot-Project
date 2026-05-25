@@ -1,0 +1,22 @@
+{
+  "persona_name": "이정한",
+  "date": "2026-05-06 20:15:10",
+  "chat_history": [
+    {
+      "role": "user",
+      "content": "안녕 뭐 하고 있었어"
+    },
+    {
+      "role": "assistant",
+      "content": "안녕! 난 요즘 드라마 보느라 바빴어 ㅋㅋㅋ\n\n무빙 재밌다고 강추! 너도 봤어? ㅇㅋ?"
+    },
+    {
+      "role": "user",
+      "content": "민준이는 요새 뭐 해"
+    },
+    {
+      "role": "assistant",
+      "content": "민준이는 항상 유튜브 보고 있어 ㅋㅋㅋ\n\n요즘 피곤하다더라구 ㅎㅎ 너는 어때?"
+    }
+  ]
+}

@@ -327,26 +327,10 @@ class AIChatBotGUI(QWidget):
 
         tags_widget = QWidget()
         tags_widget.setStyleSheet("background: transparent;")
-        tags_layout = QHBoxLayout(tags_widget)
-        tags_layout.setContentsMargins(0, 0, 0, 0)
-        tags_layout.setSpacing(6)
-        tags_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        if ACTIVE_THEME == "sage":
-            tag_texts = ["따뜻한 목소리", "소중한 기억", "잊지 못할 미소"]
-        else:
-            tag_texts = ["자연스러운 대화", "기억 기반 응답", "목소리 재현"]
-
-        for tag_text in tag_texts:
-            tag = QLabel(tag_text)
-            tag.setStyleSheet(f"""
-                background-color: transparent;
-                color: {_cur_panels.get('msg_ai_color', '#c0c0c0')};
-                border: 1px solid {_cur_panels.get('msg_ai_border', '#404040')};
-                border-radius: 12px;
-                padding: 4px 12px; font-size: 11px; font-weight: 600;
-            """)
-            tags_layout.addWidget(tag)
+        self._tags_layout = QHBoxLayout(tags_widget)
+        self._tags_layout.setContentsMargins(0, 0, 0, 0)
+        self._tags_layout.setSpacing(6)
+        self._tags_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         avatar_layout.addStretch(1)
         avatar_layout.addWidget(self.stacked_widget, alignment=Qt.AlignmentFlag.AlignCenter)
@@ -605,6 +589,35 @@ OPENAI_API_KEY<br>XI_API_KEY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← ElevenLabs<br>VOIC
         self._SAGE_APP      = SAGE_APP_STYLE
         self._SAGE_PANELS   = SAGE_PANELS
 
+        self.rebuild_tags()
+
+    def rebuild_tags(self):
+        while self._tags_layout.count():
+            item = self._tags_layout.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()
+
+        _, _cur_panels = get_theme()
+
+        if getattr(self, '_talk_mode_active', False):   # ← getattr로 안전하게 참조
+            tag_texts = ["따뜻한 목소리", "소중한 기억", "잊지 못할 미소"]
+        else:
+            tag_texts = ["자연스러운 대화", "기억 기반 응답", "목소리 재현"]
+
+        for text in tag_texts:
+            tag = QLabel(text)
+            tag.setStyleSheet(f"""
+                background: transparent;
+                color: {_cur_panels.get('msg_ai_color')};
+                border: 1px solid {_cur_panels.get('msg_ai_border')};
+                border-radius: 12px;
+                padding: 4px 12px;
+                font-size: 11px;
+                font-weight: 600;
+            """)
+            self._tags_layout.addWidget(tag)
+
+
     # ──────────────────────────────────────────────────────
     # 헬프 토글
     # ──────────────────────────────────────────────────────
@@ -655,6 +668,8 @@ OPENAI_API_KEY<br>XI_API_KEY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← ElevenLabs<br>VOIC
         )
         if self._help_overlay.isVisible():
             self._help_overlay.setVisible(False)
+        self.rebuild_tags() #임시 코드 추가
+
 
     def switch_to_setup_mode(self):
         self._talk_mode_active = False
@@ -683,6 +698,8 @@ OPENAI_API_KEY<br>XI_API_KEY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← ElevenLabs<br>VOIC
             "AI 어시스턴트 · 준비됨",
             INDIGO_PANELS["status_color"], INDIGO_PANELS["status_bg"]
         )
+
+        self.rebuild_tags()
 
     # ──────────────────────────────────────────────────────
     # 설정 저장/불러오기

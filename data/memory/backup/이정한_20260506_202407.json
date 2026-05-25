@@ -1,0 +1,22 @@
+{
+  "persona_name": "이정한",
+  "date": "2026-05-06 20:24:07",
+  "chat_history": [
+    {
+      "role": "user",
+      "content": "안녕 뭐 하고 있어"
+    },
+    {
+      "role": "assistant",
+      "content": "안녕! \n\n나 지금 집에서 쉬고 있어, \n\n너는 뭐 해? ㅋㅋㅋ"
+    },
+    {
+      "role": "user",
+      "content": "우리 물에서 뭐 하고 놀"
+    },
+    {
+      "role": "assistant",
+      "content": "오, 물에서 놀면 진짜 재밌지! \n\n물을 튀기거나, 장애물 코스도 탐험해보자! \n\n같이 수영하고, 놀면 좋겠다! ㅋㅋㅋ"
+    }
+  ]
+}

@@ -5,6 +5,8 @@ python-dotenv
 # --- AI / API ---
 openai
 fal-client
+elevenlabs          ← 추가 (ElevenLabs 음성 클론)
+requests            ← 추가 (D-ID API 호출)
 
 # --- Face Analysis & Synthesis ---
 insightface
@@ -12,14 +14,21 @@ opencv-python
 onnxruntime
 Pillow
 numpy
-requests
 
 # --- Voice / Audio ---
 sounddevice
 soundfile
-pydub
+pydub               ← Whisper 25MB 초과 청크 분할에도 사용
 gTTS
 pygame
 SpeechRecognition
 PyAudio
 playsound==1.2.2
+
+# --- Video / Media ---
+moviepy             ← 추가 (동영상에서 mp3 추출)
+
+# --- Deep Learning ---
+torch               ← 추가 (일부 모듈에서 import)
+torchvision         ← 추가
+torchaudio          ← 추가
